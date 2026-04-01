@@ -16,6 +16,7 @@ public class DatabaseConfig {
 
     @Bean
     public DataSource dataSource() throws URISyntaxException {
+        System.out.println("DATABASE_URL: " + databaseUrl);
         if (databaseUrl == null || databaseUrl.isEmpty()) {
             // Fallback to local development
             return DataSourceBuilder.create()

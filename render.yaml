@@ -19,5 +19,10 @@ services:
     dependsOn:
       - database
     envVars:
+      - fromService:
+          type: pserv
+          name: database
+          property: connectionString
+        to: DATABASE_URL
       - key: PORT
         value: 8080
