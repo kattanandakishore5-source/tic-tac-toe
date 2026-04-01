@@ -16,6 +16,8 @@ services:
     sourceDir: backend
     env: docker
     dockerfilePath: Dockerfile
+    dependsOn:
+      - database
     envVars:
       - key: PORT
         value: 8080
