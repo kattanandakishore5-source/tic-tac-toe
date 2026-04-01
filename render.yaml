@@ -7,6 +7,10 @@ services:
     buildCommand: npm install && npm run build
     publishDir: dist
 
+  - type: pserv
+    name: database
+    env: postgres
+
   - type: web
     name: backend
     sourceDir: backend
