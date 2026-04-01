@@ -1,0 +1,134 @@
+/* =====================================================
+   board.css — Board & Square styles
+   ===================================================== */
+
+:root {
+  --accent-x:       #ff3b3b;
+  --accent-o:       #00d4ff;
+  --glow-x:         rgba(255, 59, 59, 0.35);
+  --glow-o:         rgba(0, 212, 255, 0.35);
+  --cell-bg:        #141414;
+  --cell-bg-hover:  #1c1c1c;
+  --grid-gap:       3px;
+  --grid-bg:        #252525;
+  --grid-border:    #2a2a2a;
+}
+
+/* ── Wrapper ─────────────────────────────────────── */
+
+.board-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── Grid ────────────────────────────────────────── */
+
+.board-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows:    repeat(3, 1fr);
+  gap:        var(--grid-gap);
+  background: var(--grid-bg);
+  border:     2px solid var(--grid-border);
+  width:  min(400px, 88vw);
+  height: min(400px, 88vw);
+  box-shadow:
+    0 0 0 1px #0d0d0d,
+    0 24px 80px rgba(0, 0, 0, 0.7);
+}
+
+/* ── Cell / Square ───────────────────────────────── */
+
+.square {
+  background:  var(--cell-bg);
+  border:      none;
+  cursor:      pointer;
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  position:    relative;
+  overflow:    hidden;
+  transition:  background 0.12s ease;
+}
+
+.square:hover:not(:disabled) {
+  background: var(--cell-bg-hover);
+}
+
+.square:disabled {
+  cursor: default;
+}
+
+/* ── Mark (X / O) ────────────────────────────────── */
+
+.square-mark {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:   clamp(3rem, 9vw, 5.5rem);
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.square-mark.mark-x {
+  color:       var(--accent-x);
+  text-shadow: 0 0 18px var(--glow-x);
+  animation:   markPop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.square-mark.mark-o {
+  color:       var(--accent-o);
+  text-shadow: 0 0 18px var(--glow-o);
+  animation:   markPop 0.18s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes markPop {
+  from { transform: scale(0.25) rotate(-8deg); opacity: 0; }
+  to   { transform: scale(1)    rotate(0deg);  opacity: 1; }
+}
+
+/* ── Ghost preview ───────────────────────────────── */
+
+.square-ghost {
+  position:   absolute;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size:  clamp(3rem, 9vw, 5.5rem);
+  line-height: 1;
+  opacity:    0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+  user-select:    none;
+}
+
+.square:hover:not(:disabled) .square-ghost {
+  opacity: 0.1;
+}
+
+.square-ghost.ghost-x { color: var(--accent-x); }
+.square-ghost.ghost-o { color: var(--accent-o); }
+
+/* ── Winning highlight ───────────────────────────── */
+
+.square.winning {
+  animation: winPulse 0.45s ease forwards;
+}
+
+.square.winning .square-mark.mark-x {
+  text-shadow: 0 0 30px var(--glow-x), 0 0 60px var(--glow-x);
+}
+
+.square.winning .square-mark.mark-o {
+  text-shadow: 0 0 30px var(--glow-o), 0 0 60px var(--glow-o);
+}
+
+@keyframes winPulse {
+  0%   { background: var(--cell-bg); }
+  50%  { background: #1d1d1d; }
+  100% { background: #181818; }
+}
+
+/* ── Disabled overlay (game over, not winning) ───── */
+
+.square.dimmed .square-mark {
+  opacity: 0.45;
+}

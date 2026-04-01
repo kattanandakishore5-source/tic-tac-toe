@@ -1,0 +1,17 @@
+version: 2
+
+services:
+  - type: static-site
+    name: frontend
+    sourceDir: frontend
+    buildCommand: npm install && npm run build
+    publishDir: dist
+
+  - type: web
+    name: backend
+    sourceDir: backend
+    env: docker
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: PORT
+        value: 8080
